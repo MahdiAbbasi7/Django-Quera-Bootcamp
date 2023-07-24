@@ -71,3 +71,9 @@ while i1 < m:
      print(i1, end = " ")
      i1 = i1 + 1
 print("End")
+
+# this is example for shorthand of if and else 
+a = 330
+b = 330
+print("A") if a > b else print("=") if a == b else print("B")
+
