@@ -5,6 +5,7 @@
 # and allow duplicate values.
 # The first item has index [0] and the second [1].
 # List items can be of any data type(int or string or boolean).
+# We use lists insted of Arrays in python.(but if you want to actual arrays, you must import Numpy library)
 
 
 ### LIST is a collection which is ordered and changable. Duplicate values are ok.
