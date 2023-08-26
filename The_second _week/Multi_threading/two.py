@@ -38,9 +38,3 @@ t2.join()
 end = perf_counter()
 
 print(f"Time of  this code : {round(end - start)} seconds")
-
-# Starting one
-# Starting two
-# Fininshing one
-# Fininshing two
-# Time of  this code : 5 seconds
