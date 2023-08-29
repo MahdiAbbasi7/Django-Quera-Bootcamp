@@ -2,6 +2,7 @@
 unit test tutorial
 """
 import unittest
+import pytest
 import calc
 
 class Testcalc(unittest.TestCase):
@@ -15,7 +16,10 @@ class Testcalc(unittest.TestCase):
     
     def test_divide(self):
         self.assertEqual(calc.divide(9,3), 3)
-        self.assertRaises(ZeroDivisionError,calc.divide,4, 0) # test raised exception.
+        # self.assertRaises(ZeroDivisionError,calc.divide,4, 0)
+        # test raised exception.
+        with pytest.raises(ZeroDivisionError):
+            calc.divide(3, 0)
         
     def test_multiply(self):
         self.assertEqual(calc.multiply(1,2),2)
