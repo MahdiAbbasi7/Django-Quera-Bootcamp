@@ -5,7 +5,7 @@ Before this file, check extra directories.
 from itertools import islice
 from functools import partial
 
-l = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+l = ["A",]
 
 def slice(iterabel, number):
     return list(islice(iterabel, number))
@@ -25,5 +25,5 @@ def chancked_func(iterabel, number, strict = False):
     else:    
         return iterator
 
-# print(slice(l, 5))
+print(slice(l, 2))
 # print(list(chancked(l,3, strict=True)))
