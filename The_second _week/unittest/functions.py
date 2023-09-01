@@ -25,5 +25,7 @@ def chancked_func(iterabel, number, strict = False):
     else:    
         return iterator
 
+
+
 print(slice(l, 2))
 # print(list(chancked(l,3, strict=True)))
