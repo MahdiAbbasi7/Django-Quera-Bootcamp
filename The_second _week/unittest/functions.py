@@ -4,6 +4,8 @@ Before this file, check extra directories.
 
 from itertools import islice
 from functools import partial
+from collections.abc import Sequence
+from collections import deque
 
 l = ["A","B","C","D","E"]
 m = []
@@ -37,9 +39,22 @@ def first(iterable, default=_marker):
             raise ValueError("first was called on an empty, and no  default"
                              "value was provided.") from e
         return default
-    
+
+def last(iterable, default=_marker):
+    try:
+        if isinstance(iterable, Sequence):
+            return iterable[-1]
+        elif hasattr(iterable, "__reversed__"):
+            return next(reversed(iterable))
+        else:
+            return deque(iterable, maxlen=1)[-1]
+    except (IndexError, TypeError, StopIteration):
+        if default is _marker: 
+            raise ValueError("default must be provided.")
+        return default
 
 
+# print(last(m, 4))
 # print(first(l))
 # print(first(m))
 # print(slice(l, 2))
