@@ -1,5 +1,6 @@
 import unittest
 import functions
+import traceback
 
 class SliceTests(unittest.TestCase):
     def test_sample_slice(self):
@@ -54,6 +55,27 @@ class ChanckedTests(unittest.TestCase):
         self.assertRaisesRegex(
             ValueError, "number must be a positive number and not none or negative.", f
             )
+
+class FirstTests(unittest.TestCase):
+    def test_many(self):
+        self.assertEqual(functions.first(x for x in range(4)), 0)
+    
+    def test_one(self):
+        self.assertEqual(functions.first([3]),3)
+
+    def test_default_value(self):
+        self.assertEqual(functions.first([], "e"), "e")
+   
+    def test_not_default_value(self):
+        # use traceback
+        try:
+            functions.first([])
+        except ValueError:
+            formatted_exec = traceback.format_exc() # change this to string.
+            self.assertIn("StopIteration", formatted_exec)
+            self.assertIn("The above exception was the direct cause", formatted_exec)
+        else:
+            self.fail()
 
 if __name__ == "__main__":
     unittest.main()
