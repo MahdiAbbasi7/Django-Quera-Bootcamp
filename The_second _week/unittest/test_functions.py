@@ -106,6 +106,19 @@ class LastTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     functions.last(iterable) 
 
+class Nth_or_lastTests(unittest.TestCase):
+    def test_basic(self):
+        self.assertEqual(functions.nth_or_last([1,2,3,4], 2), 3)
+        self.assertEqual(functions.nth_or_last([1,2,3,4], 6), 4)
+    
+    def test_defualt_value(self):
+        defualt = 85
+        self.assertEqual(functions.nth_or_last(range(5), 2 , defualt), 2)
+        self.assertEqual(functions.nth_or_last([], 0 , defualt), defualt)
+    
+    def test_empty_iterable_no_defualt(self):
+        """nabod lambda : vaghty test haro run koni onja ham behet error ro neshon mide."""
+        self.assertRaises(ValueError, lambda: functions.nth_or_last(range(0), 5), )
 
 if __name__ == "__main__":
     unittest.main()

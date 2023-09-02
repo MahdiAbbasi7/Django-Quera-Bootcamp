@@ -53,7 +53,12 @@ def last(iterable, default=_marker):
             raise ValueError("default must be provided.")
         return default
 
+def nth_or_last(iterable, n, default=_marker):
+    return last(islice(iterable, n+1), default=default) # n+1 becuase we use index.
 
+
+
+print(nth_or_last([],0, "ali"))
 # print(last(m, 4))
 # print(first(l))
 # print(first(m))
