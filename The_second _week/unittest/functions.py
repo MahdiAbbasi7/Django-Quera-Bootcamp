@@ -56,9 +56,22 @@ def last(iterable, default=_marker):
 def nth_or_last(iterable, n, default=_marker):
     return last(islice(iterable, n+1), default=default) # n+1 becuase we use index.
 
+def one(iterable, too_short =None, too_long=None):
+    it = iter(iterable)
+    try:
+        first_value = next(it)
+    except StopIteration as e:
+        raise(
+            too_short or ValueError('too few items in iterable (expected 1)')
+        ) from e
+    # TODO: countinue 
 
 
-print(nth_or_last([],0, "ali"))
+
+
+
+
+# print(nth_or_last([],0, "ali"))
 # print(last(m, 4))
 # print(first(l))
 # print(first(m))
