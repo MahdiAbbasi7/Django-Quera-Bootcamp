@@ -160,5 +160,19 @@ class OneTests(unittest.TestCase):
             lambda: functions.one(it)
         )
 
+class InterleaveTests(unittest.TestCase):
+    def test_short(self):
+        actual = list(functions.interleave([3,4,5],[6,7,8],[1,2]))
+        expected = ['3', '6', '1', '4' , '7' , '2']
+        self.assertEqual(actual, expected)
+    def test_even(self):
+        actual = list(functions.interleave([1,4,7],[2,5,8],[3,6,9]))
+        expected = ['1', '2', '3', '4' , '5' , '6', '7', '8', '9']
+        self.assertEqual(actual, expected)
+    def test_complex(self):
+        actual = list(functions.interleave([3,4,5],['A','B','C'],list(count())))
+        expected = ['3', 'A', '0', '4' , 'B' , '1']
+        self.assertEqual(actual, expected)
+
 if __name__ == "__main__":
     unittest.main()

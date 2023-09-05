@@ -2,13 +2,13 @@
 Before this file, check extra directories.
 """
 
-from itertools import islice
+from itertools import islice, chain
 from functools import partial
 from collections.abc import Sequence
 from collections import deque
 
 l = ["A","B","C","D","E"]
-m = []
+m = [1, 2, 3]
 
 _marker = object()
 
@@ -77,10 +77,12 @@ def one(iterable, too_short =None, too_long=None):
         raise too_long or ValueError(msg)
     return first_value
 
+def interleave(*iterable):
+    return chain.from_iterable(zip(*iterable))
 
 
-
-
+print(list(interleave(l, m)))
+# print(one(m))
 # print(nth_or_last([],0, "ali"))
 # print(last(m, 4))
 # print(first(l))
