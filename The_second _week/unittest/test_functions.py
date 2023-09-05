@@ -174,5 +174,7 @@ class InterleaveTests(unittest.TestCase):
         expected = ['3', 'A', '0', '4' , 'B' , '1']
         self.assertEqual(actual, expected)
 
+
+
 if __name__ == "__main__":
     unittest.main()
