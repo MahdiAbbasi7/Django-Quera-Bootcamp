@@ -2,7 +2,7 @@ import unittest
 import functions
 import traceback
 
-from itertools import count
+from itertools import count, cycle
 
 class SliceTests(unittest.TestCase):
     def test_sample_slice(self):
@@ -174,7 +174,39 @@ class InterleaveTests(unittest.TestCase):
         expected = ['3', 'A', '0', '4' , 'B' , '1']
         self.assertEqual(actual, expected)
 
+class RepeatEachTests(unittest.TestCase):
+    def test_default(self):
+        actual = list(functions.repeat_each('ABC'))
+        expected = ['A', 'A', 'B', 'B', 'C', 'C']
+        self.assertEqual(actual, expected)
 
+    def test_basic(self):
+        actual = list(functions.repeat_each('ABC', 3))
+        expected = ['A', 'A', 'A','B', 'B', 'B','C', 'C','C']
+        self.assertEqual(actual, expected)
+
+    def test_empty(self):
+        actual = list(functions.repeat_each([]))
+        expected = []
+        self.assertEqual(actual, expected)
+
+    def test_no_repeat(self):
+        actual = list(functions.repeat_each('ABC', 0))
+        expected = []
+        self.assertEqual(actual, expected)
+
+    def test_negetive_repeat(self):
+        actual = list(functions.repeat_each('ABC', -1))
+        expected = []
+        self.assertEqual(actual, expected)
+
+    def test_infinte_repeat(self):
+        repeater = list(functions.repeat_each(cycle('AB')))
+        actual = functions.slice(repeater, 5)
+        expected = ['A','A', 'B', 'B', 'A']
+        self.assertEqual(actual, expected)
+
+    
 
 if __name__ == "__main__":
     unittest.main()

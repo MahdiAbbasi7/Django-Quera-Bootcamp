@@ -2,7 +2,7 @@
 Before this file, check extra directories.
 """
 
-from itertools import islice, chain
+from itertools import islice, chain, repeat
 from functools import partial
 from collections.abc import Sequence
 from collections import deque
@@ -80,8 +80,11 @@ def one(iterable, too_short =None, too_long=None):
 def interleave(*iterable):
     return chain.from_iterable(zip(*iterable))
 
+def repeat_each(iterable, n = 2):
+    return chain.from_iterable(map(repeat, iterable, repeat(n)))
 
-print(list(interleave(l, m)))
+# print(list(repeat_each(l)))
+# print(list(interleave(l, m)))
 # print(one(m))
 # print(nth_or_last([],0, "ali"))
 # print(last(m, 4))
