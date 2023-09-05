@@ -206,7 +206,67 @@ class RepeatEachTests(unittest.TestCase):
         expected = ['A','A', 'B', 'B', 'A']
         self.assertEqual(actual, expected)
 
+
+class StrictlyTests(unittest.TestCase):
+    def test_basic(self):
+        iterable = ['a', 'b', 'c', 'd', 'e', 'f']
+        n = 6
+        actual = functions.strictly(iterable, n)
+        expected  = iterable
+        self.assertEqual(actual, expected)
+
+    def test_too_short_default(self):
+        iterable = ['a', 'b', 'c', 'd']
+        n = 5
+        with self.assertRaises(ValueError) as exc:
+            list(functions.strictly(iterable, n))
+        self.assertEqual(
+            'Too few item in iterrable (got 4)', exc.exception.args[0]
+        )
+    def test_too_long_defualt(self):
+        iterable = ['a', 'b', 'c', 'd']
+        n = 5
+        with self.assertRaises(ValueError) as exc:
+            list(functions.strictly(iterable, n))
+        self.assertEqual(
+            'too many items in iterable (got at least 4)', exc.exception.args[0]
+        )
+    def test_too_short_custom(self):
+        call_count = 0
+        def too_short(item_count):
+            nonlocal call_count
+            call_count += 1
+
+        iterable = ['a', 'b', 'c', 'd'] 
+        n = 6
+        actual =[]
+
+        for item in functions.strictly(iterable, n , too_short=too_short): # second too_short is a functions in line 236
+            actual.append(item)
+        expected  = ['a', 'b', 'c', 'd'] 
+        self.assertEqual(actual, expected)
+        self.assertEqual(call_count, 1)
+
+
+    def test_too_long_custom(self):
+        import logging
+
+        iterable = ['a', 'b', 'c', 'd'] 
+        n = 2
+        too_long = lambda item_count:logging.warning(
+            f'Picked the first {n} items'
+        )
+        
+        with self.assertLogs(level='WARNING') as exc:
+            actual = list(functions.strictly(iterable, n, too_long=too_long))
+        self.assertEqual(actual, ['a', 'b'])
+        self.assertIn('Picked the first 2 items', exc.output[0])
+        
+
     
+
+
+
 
 if __name__ == "__main__":
     unittest.main()

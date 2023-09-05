@@ -12,6 +12,9 @@ m = [1, 2, 3]
 
 _marker = object()
 
+def raise_exception(exc, *args):
+    raise exc(*args)
+
 def slice(iterabel, number):
     return list(islice(iterabel, number))
 
@@ -82,6 +85,37 @@ def interleave(*iterable):
 
 def repeat_each(iterable, n = 2):
     return chain.from_iterable(map(repeat, iterable, repeat(n)))
+
+def strictly(iterable, n , too_short=None, too_long=None):
+    if too_short is None:
+        too_short = lambda item_count: raise_exception(
+            ValueError, 
+            f'too few items in iterable (got {item_count})'
+        )
+    if too_long is None:
+        too_long = lambda item_count: raise_exception(
+            ValueError, 
+            f'too many items in iterable (got at least {item_count})'
+        )
+    it = iter(iterable)
+    for i in range(n):
+        try:
+            item = next(it)
+        except StopIteration:
+            too_short(i)
+            return
+        else :
+            yield item
+    try:
+        next(it)
+    except StopIteration:
+        pass
+    else:
+        too_long(n+1)
+
+
+
+
 
 # print(list(repeat_each(l)))
 # print(list(interleave(l, m)))
