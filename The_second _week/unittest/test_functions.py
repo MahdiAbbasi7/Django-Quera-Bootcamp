@@ -2,6 +2,8 @@ import unittest
 import functions
 import traceback
 
+from itertools import count
+
 class SliceTests(unittest.TestCase):
     def test_sample_slice(self):
         t = functions.slice(range(10), 4)
@@ -119,6 +121,44 @@ class Nth_or_lastTests(unittest.TestCase):
     def test_empty_iterable_no_defualt(self):
         """nabod lambda : vaghty test haro run koni onja ham behet error ro neshon mide."""
         self.assertRaises(ValueError, lambda: functions.nth_or_last(range(0), 5), )
+
+class OneTests(unittest.TestCase):
+    def test_basic(self):
+        it = ['item']
+        self.assertEqual(functions.one(it), 'item')
+    
+    def test_to_short(self):
+        it=[]
+        for too_short, exc_type in [
+            (None, ValueError),
+            (IndexError, IndexError)
+        ]:
+            with self.subTest(too_short= too_short):
+                try:
+                    functions.one(it, too_short=too_short)
+                except exc_type:
+                    formatted_exc = traceback.format_exc()
+                    self.assertIn('StopIteration', formatted_exc)
+                    self.assertIn('The above exception was the direct cause', formatted_exc)
+                else:
+                    self.fail()
+    
+    def test_too_long(self):
+        it = count()
+        self.assertRaises(ValueError, lambda: functions.one(it))
+        self.assertEqual(next(it), 2)
+        self.assertRaises(
+            OverflowError, lambda: functions.one(it, too_long= OverflowError)
+        )
+
+    def test_too_long_default_message(self):
+        it = count()
+        self.assertRaisesRegex(
+            ValueError,
+            'Expected exactly one itme in iterable, but got 0, 1, '
+            'and perhaps more.',
+            lambda: functions.one(it)
+        )
 
 if __name__ == "__main__":
     unittest.main()
