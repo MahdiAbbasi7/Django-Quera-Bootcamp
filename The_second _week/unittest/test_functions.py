@@ -351,6 +351,56 @@ class Always_iterableTests(unittest.TestCase):
             yield 1
         self.assertEqual(list(functions.always_iterable(_gen())), [0, 1])
 
+class Split_AfterTests(unittest.TestCase):
+    def test_start_with_separator(self):
+        actual = list(functions.split_after('xooxoo', lambda c: c == 'x'))
+        expected = [['x'], ['o', 'o', 'x'], ['o', 'o']]
+        self.assertEqual(actual, expected)
+
+    def test_finish_with_separator(self):
+        actual = list(functions.split_after('ooxoox', lambda c: c == 'x'))
+        expected = [['o', 'o'], ['x'], ['o', 'o' , 'x']]
+        self.assertEqual(actual, expected)
+
+    def test_no_seperator(self):
+        actual = list(functions.split_after('ooo', lambda c: c == 'x'))
+        expected = [['o','o', 'o']]
+        self.assertEqual(actual, expected)
+        
+    def test_max_split(self):
+        for args, expected in [
+            (
+                ('a,b,c,d', lambda x: x == ',', -1),
+                [['a', ','], ['b', ','], ['c', ','], ['d']]
+            ),
+            (
+                ('a,b,c,d', lambda x: x == ',', 0),
+                [['a', ',', 'b', ',', 'c', ',', 'd']]
+            ),
+            (
+                ('a,b,c,d', lambda x: x == ',', 1),
+                [['a', ','], ['b', ',', 'c', ',', 'd']]
+            ),
+            (
+                ('a,b,c,d', lambda x: x == ',', 2),
+                [['a', ','], ['b', ','],['c', ',', 'd']]
+            ),
+            (
+                ('a,b,c,d', lambda x: x == ',', 10),
+                [['a', ','], ['b', ','], ['c', ','], ['d']]                
+            )
+            (
+                ('a,b,c,d', lambda x: x == '@', 2),    
+                [['a', ',', 'b', ',', 'c', ',', 'd']]
+            ),
+            (
+                ('a,b,c,d', lambda x: x != ',', 2),  
+                [['a'], [',', 'b'], [',', 'c', ',', 'd']]
+            )
+        ]:
+            actual = list(functions.split_after(*args))
+            self.assertEqual(actual, expected)
+
 
 
 

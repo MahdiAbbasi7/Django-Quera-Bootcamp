@@ -145,6 +145,24 @@ def always_iterable(obj, base_type= (str, bytes)):
     except TypeError:
         return iter((obj,))
     
+def split_after(iterable, pred, max_split = -1):
+    if max_split == 0:
+        yield list(iterable)
+        return
+    buf =[]
+    it = iter(iterable)
+    for item in it:
+        buf.append(item)
+        if pred(item) and buf:
+            yield buf
+            if max_split == 1:
+                yield list(it)
+                return
+            buf = []
+            max_split -= 1
+    if buf:
+        yield buf
+        
 
 # print(list(repeat_each(l)))
 # print(list(interleave(l, m)))
