@@ -261,9 +261,33 @@ class StrictlyTests(unittest.TestCase):
             actual = list(functions.strictly(iterable, n, too_long=too_long))
         self.assertEqual(actual, ['a', 'b'])
         self.assertIn('Picked the first 2 items', exc.output[0])
-        
+
+class OnlyTests(unittest.TestCase):
+    def test_default(self):
+        self.assertEqual(functions.only([]), None)
+        self.assertEqual(functions.only([1]), 1)
+        self.assertRaises(ValueError, lambda: functions.only([1, 2]))
+
+    def test_custom_value(self):
+        self.assertEqual(functions.only([], defualt='!'),'!')
+        self.assertEqual(functions.only([1], defualt='!'), 1)
+        self.assertRaises(ValueError, lambda: functions.only([1, 2], defualt='!'))
+
+    def test_custom_exceptions(self):
+        self.assertEqual(functions.only([], too_long=RuntimeError), None)
+        self.assertEqual(functions.only([1], too_long=RuntimeError), 1)
+        self.assertRaises(RuntimeError, lambda: functions.only([1, 2], too_long=RuntimeError))
 
     
+    def test_default_exceptions_messages(self):
+        self.assertRaisesRegex(
+            ValueError,
+            'Expected exactly one item in iterable but got foo, bar, and perhaps more.',
+            functions.only(['foo', 'bar', 'boo'])
+        )
+
+
+
 
 
 
