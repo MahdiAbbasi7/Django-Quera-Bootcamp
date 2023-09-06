@@ -206,7 +206,6 @@ class RepeatEachTests(unittest.TestCase):
         expected = ['A','A', 'B', 'B', 'A']
         self.assertEqual(actual, expected)
 
-
 class StrictlyTests(unittest.TestCase):
     def test_basic(self):
         iterable = ['a', 'b', 'c', 'd', 'e', 'f']
@@ -286,9 +285,25 @@ class OnlyTests(unittest.TestCase):
             functions.only(['foo', 'bar', 'boo'])
         )
 
-
-
-
+class Always_reverseTests(unittest.TestCase):
+    def test_regular_reversed(self):
+        self.assertEqual(
+            list(reversed(range(10))), list(functions.always_reverse(range(10)))
+        )
+        self.assertEqual(
+            list(reversed([1, 2, 3, 4])), list(functions.always_reverse([1, 2, 3, 4]))
+        )
+        self.assertEqual(
+            reversed([1, 2, 3, 4]).__class__, functions.always_reverse([1, 2, 3, 4]).__class__
+        )
+    
+    def test_nonregular_reversed(self):
+        self.assertEqual(
+            list(reversed([1, 2, 3, 4])), list(functions.always_reverse(x for x in [1, 2, 3, 4]))
+        )
+        self.assertNotEqual(
+            reversed((1, 2)).__class__, functions.always_reverse(x for x in (1, 2)).__class__
+        )
 
 
 
