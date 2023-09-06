@@ -305,6 +305,53 @@ class Always_reverseTests(unittest.TestCase):
             reversed((1, 2)).__class__, functions.always_reverse(x for x in (1, 2)).__class__
         )
 
+class Always_iterableTests(unittest.TestCase):
+    def test_single(self):
+        self.assertEqual(list(functions.always_iterable(1)), [1])
+    
+    def test_string(self):
+        # b'bar', b for convert to bytes.
+        for obj in ['foo', b'bar', 'baz']:
+            actual = list(functions.always_iterable(obj))
+            expected = list(obj)
+            self.assertEqual(actual, expected)
+    
+    def test_base_type(self):
+        dict_obj = {'a':1, 'b':2}
+        str_obj = '123'
+
+        defualt_actual = list(functions.always_iterable(dict_obj))
+        defualt_expected = list(str_obj)
+        self.assertEqual(defualt_actual, defualt_expected)
+
+        custom_actual = list(functions.always_iterable(dict_obj, base_type=dict))
+        custom_expected = list(dict_obj)
+        self.assertEqual(custom_actual, custom_expected)
+
+        str_actual = list(functions.always_iterable(str_obj, base_type=None))
+        str_expected = list(str_obj)
+        self.assertEqual(str_actual, str_expected)
+
+        custom_actual = list(functions.always_iterable(dict_obj, base_type=((dict,),)))
+        custom_expected = list(dict_obj)
+        self.assertEqual(custom_actual,custom_expected)
+
+    def test_iterabels(self):
+        self.assertEqual(functions.always_iterable([0, 1]), [0, 1])
+        self.assertEqual(functions.always_iterable([0, 1], base_type=None), [0, 1])
+        self.assertEqual(functions.always_iterable(iter('foo')), ['f', 'o', 'o'])
+        self.assertEqual(functions.always_iterable([]), [])
+
+    def test_none(self):
+        self.assertEqual(functions.always_iterable(None), [])
+
+    def test_generator(self):
+        def _gen():
+            yield 0
+            yield 1
+        self.assertEqual(list(functions.always_iterable(_gen())), [0, 1])
+
+
 
 
 if __name__ == "__main__":

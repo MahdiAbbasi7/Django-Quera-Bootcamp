@@ -133,8 +133,18 @@ def always_reverse(iterable):
         return reversed(iterable)
     except TypeError: 
         return reversed(list(iterable))
-    
 
+def always_iterable(obj, base_type= (str, bytes)):
+    if obj is None: return iter(())
+
+    if (base_type is not None) and isinstance(obj, base_type):
+        return iter(obj,)
+    
+    try:
+        return iter(obj)
+    except TypeError:
+        return iter((obj,))
+    
 
 # print(list(repeat_each(l)))
 # print(list(interleave(l, m)))
