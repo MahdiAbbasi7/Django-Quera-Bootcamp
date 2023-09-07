@@ -401,7 +401,125 @@ class Split_AfterTests(unittest.TestCase):
             actual = list(functions.split_after(*args))
             self.assertEqual(actual, expected)
 
+class Split_IntoTests(unittest.TestCase):
+    def test_iterable_just_right(self):
+        iterable = list(1, 2, 3, 4, 5, 6, 7, 8, 9)
+        sizes = list(2, 3, 4)
+        actual = list(functions.split_into(iterable, sizes))
+        expected = [[1, 2], [3, 4, 5], [6, 7, 8, 9]]
+        self.assertEqual(actual, expected)
+    
+    def test_iterable_too_small(self):
+        iterable = list(1, 2, 3, 4, 5, 6, 7)
+        sizes = list(2, 3, 4)
+        actual = list(functions.split_into(iterable, sizes))
+        expected = [[1, 2], [3, 4, 5], [6, 7]]
+        self.assertEqual(actual, expected) 
+    
+    def test_itrable_too_small_extra(self):
+        iterable = list(1, 2, 3, 4, 5, 6, 7)
+        sizes = list(2, 3, 4, 5)
+        actual = list(functions.split_into(iterable, sizes))
+        expected = [[1, 2], [3, 4, 5], [6, 7], []]
+        self.assertEqual(actual, expected)
+    
+    def test_iterable_too_large_extra(self):
+        iterable = list(1, 2, 3, 4, 5, 6, 7, 8, 9)
+        sizes = list(2, 3, 2)
+        actual = list(functions.split_into(iterable, sizes))
+        expected = [[1, 2], [3, 4, 5], [6, 7]]
+        self.assertEqual(actual, expected)
 
+    def test_using_none(self):
+        iterable = list(1, 2, 3, 4, 5, 6, 7, 8, 9)
+        sizes = list(2, 3, None)
+        actual = list(functions.split_into(iterable, sizes))
+        expected = [[1, 2], [3, 4, 5], [6, 7, 8, 9]]
+        self.assertEqual(actual, expected)
+
+    def test_using_none_without_leftover(self):
+        iterable = list(1, 2, 3, 4, 5, 6, 7, 8, 9)
+        sizes = list(2, 3, 4, None)
+        actual = list(functions.split_into(iterable, sizes))
+        expected = [[1, 2], [3, 4, 5], [6, 7, 8, 9], []]
+        self.assertEqual(actual, expected)
+
+    def test_using_none_midsizes(self):
+        iterable = list(1, 2, 3, 4, 5, 6, 7, 8, 9)
+        sizes = list(2, 3, None, 4)
+        actual = list(functions.split_into(iterable, sizes))
+        expected = [[1, 2], [3, 4, 5], [6, 7, 8, 9]]
+        self.assertEqual(actual, expected)
+
+    def test_iterable_empty(self):
+        iterable = []
+        sizes = [2, 3, 4]
+        actual = list(functions.split_into(iterable, sizes))
+        expected = [[], [], []]
+        self.assertEqual(actual, expected)
+
+    def test_iterable_empty_using_none(self):
+        iterable = []
+        sizes = [2, 3, 4, None]
+        actual = list(functions.split_into(iterable, sizes))
+        expected = [[], [], []]
+        self.assertEqual(actual, expected)
+
+    def test_sizes_empty(self):
+        iterable = list(1, 2, 3, 4, 5, 6, 7, 8, 9)
+        sizes = []
+        actual = list(functions.split_into(iterable, sizes))
+        expected = []
+        self.assertEqual(actual, expected)
+
+    def test_everythings_empty(self):
+        itrable = []
+        sizes = []
+        actual = list(functions.split_into(iterable, sizes))
+        expected = []
+        self.assertEqual(actual, expected)
+
+    def test_bool_in_sizes(self):
+        iterable = list(1, 2, 3, 4, 5, 6, 7, 8, 9)
+        sizes = list(3, True, 2, False)
+        actual = list(functions.split_into(iterable, sizes))
+        expected = [[1, 2, 3], [4], [5, 6], []]
+        self.assertEqual(actual, expected)
+
+    def test_invalid_sizes(self):
+        iterable = list(1, 2, 3, 4, 5, 6, 7, 8, 9)
+        sizes = list(1, [], 3)
+        with self.assertRaises(ValueError):
+            list(functions.split_into(iterable, sizes))
+
+    def test_invalid_in_sizes_after_none(self):
+        iterable = list(1, 2, 3, 4, 5, 6, 7, 8, 9)
+        sizes = list(3, 4, None, [])
+        actual = list(functions.split_into(iterable, sizes))
+        expected = [[1, 2, 3] [4, 5 ,6, 7] [8, 9]]
+        self.assertEqual(actual, expected)
+
+    def test_generator_in_iterable_integraty(self):
+        iterable = (i for i in range(10))
+        sizes  = [2, 3]
+        actual = list(functions.split_into(iterable, sizes))
+        expected  = [[0, 1], [2, 3, 4]]
+        self.assertEqual(actual, expected)
+
+        iterable_actual = [5, 6, 7, 8, 9]
+        iterable_expected = [iterable]
+        self.assertEqual(iterable_actual, iterable_expected)
+
+    def test_generator_sizes_integraty(self):
+        iterable = list(1, 2, 3, 4, 5, 6, 7, 8, 9)
+        sizes = (x for x in [1, 2, None, 4, 5])
+        expected = [[1], [2, 3], [4, 5, 6 ,7 ,8, 9]]
+        actual = list(functions.split_into(iterable, sizes))
+        self.assertEqual(actual, expected)
+
+        sizes_actual = list(sizes)
+        sizes_expected = [3,4]
+        self.assertEqual(sizes_actual, sizes_expected)
 
 
 if __name__ == "__main__":
