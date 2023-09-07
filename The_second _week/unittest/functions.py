@@ -172,6 +172,10 @@ def split_into(iterable, sizes):
         else:
             yield list(islice(it, size))
 
+def map_if(iterable, pred, func, func_else=lambda x: x):
+    for item in iterable:
+        yield func(item) if pred(item) else func_else(item)
+
 
 # print(list(repeat_each(l)))
 # print(list(interleave(l, m)))

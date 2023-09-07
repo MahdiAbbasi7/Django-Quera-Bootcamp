@@ -521,6 +521,23 @@ class Split_IntoTests(unittest.TestCase):
         sizes_expected = [3,4]
         self.assertEqual(sizes_actual, sizes_expected)
 
+class MapIfTests(unittest.TestCase):
+    def test_without_func_else(self):
+        iterable = list(range(-5, 5))
+        actual = list(functions.map_if(iterable, lambda x: x>3, lambda x: 'toobig'))
+        expected = list(-5, -4, -3, -2, -1, 0, 1, 2, 3, 4)
+        self.assertEqual(actual, expected)
+
+    def test_with_func_else(self):
+        iterable = list(range(-5, 5))
+        actual = list(functions.map_if(iterable, lambda x: x>=0, lambda x: 'notneg', lambda x:'neg' ))
+        expected = ['neg'] * 5 + ['notneg'] * 5 
+        self.assertEqual(actual, expected)
+
+    def test_empty(self):
+        actual = list(functions.map_if([], lambda x: len(x)>5, lambda x: None))
+        expected = list()
+        self.assertEqual(actual, expected)
 
 if __name__ == "__main__":
     unittest.main()
