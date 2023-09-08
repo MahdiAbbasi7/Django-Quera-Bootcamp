@@ -207,7 +207,16 @@ def difference(iterable, func=sub, *, initial=None): # * after python 3, and tha
     if initial is not None:
         first = []
         return chain(first, starmap(func, zip(a, b))) # a+b by zip, send to func by starmap, result of starmap + first by chain.
-    
+
+def value_chain(*args):
+    for value in args:
+        if isinstance(value, (str, bytes)):
+            yield value
+            continue
+        try:
+            yield from value # nested is not valid
+        except TypeError:
+            yield value
 
 
 # print(list(repeat_each(l)))

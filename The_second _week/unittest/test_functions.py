@@ -607,5 +607,40 @@ class DiffrenceTests(unittest.TestCase):
         actual = list(functions.difference(accumulated, initial = 100)) # n - (n-1) + (n-2) + ....
         self.assertEqual(actual, orginal)
 
+class Value_ChainTests(unittest.TestCase):
+    def test_empty(self):
+        actual = list(functions.value_chain())
+        expected = list()
+        self.assertEqual(actual, expected)
+
+    def test_simple(self):
+        actual = list(functions.value_chain(1, 2.17, False, 'foo'))
+        expected = list(1, 2.17, False, 'foo')
+        self.assertEqual(actual,expected)
+    
+    def test_more(self):
+        actual = list(functions.value_chain([1, 2, 3], b'bar', False, {'key': 1}))
+        expected = list(1, 2, 3, b'bar', False,'key')
+        self.assertEqual(actual,expected)
+
+    def test_empty_lists(self):
+        actual = list(functions.value_chain(1, 2, [], [3, 4]))
+        expected = list(1, 2, [], 3, 4)
+        self.assertEqual(actual,expected)
+
+    def test_complex(self):
+        obj = object()
+        actual = list(
+            functions.value_chain(
+                (1,(2,(3,))),
+                ['foo', ['bar',['baz']], ['tic']],
+                {'key': {'fpp': 1}},
+                obj
+            )
+        )
+        expected  = list(1,(2,(3,)), 'foo', ['bar',['baz']], 'tic', 'key', obj)
+        self.assertEqual(expected, actual)
+
+
 if __name__ == "__main__":
     unittest.main()
