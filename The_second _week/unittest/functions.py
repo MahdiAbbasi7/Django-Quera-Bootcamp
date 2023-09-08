@@ -2,11 +2,12 @@
 Before this file, check extra directories.
 """
 
-from itertools import islice, chain, repeat
+from itertools import islice, chain, repeat, tee, starmap
 from functools import partial
 from collections.abc import Sequence
 from collections import deque
 from time import monotonic
+from operator import sub
 
 l = ["A","B","C","D","E"]
 m = [1, 2, 3]
@@ -195,6 +196,19 @@ class time_limited:
             self.timed_out = True
             raise StopIteration
         return item
+
+def difference(iterable, func=sub, *, initial=None): # * after python 3, and that means you must send keyword-arguments to function.
+    a, b = tee(iterable) # copy two(a, b) iterables 
+    try:
+        first = list(next(b))
+    except StopIteration:
+        return iter([])
+    
+    if initial is not None:
+        first = []
+        return chain(first, starmap(func, zip(a, b))) # a+b by zip, send to func by starmap, result of starmap + first by chain.
+    
+
 
 # print(list(repeat_each(l)))
 # print(list(interleave(l, m)))

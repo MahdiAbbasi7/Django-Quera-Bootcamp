@@ -2,8 +2,12 @@ import unittest
 import functions
 import traceback
 
-from itertools import count, cycle
+from unittest import skipIf
+from itertools import count, cycle, accumulate
+from itertools import add
+from sys import version_info
 from time import sleep
+
 
 class SliceTests(unittest.TestCase):
     def test_sample_slice(self):
@@ -570,6 +574,38 @@ class TimeLimetedTests(unittest.TestCase):
     def invalid_time(self):
         with self.assertRaises(ValueError):
             list(functions.time_limited(-0.1, count()))
-            
+
+class DiffrenceTests(unittest.TestCase):
+    def test_normal(self):
+        iterable = list(10, 20, 30, 40 ,50)
+        actual = list(functions.always_iterable(iterable))
+        expected = [10, 10, 10, 10, 10]
+        self.assertEqual(actual, expected)
+
+    def test_custom(self):
+        iterable = list(10, 20, 30, 40 ,50)
+        actual = list(functions.always_iterable(iterable, func=add))
+        expected = [10, 30, 50, 70, 90]
+        self.assertEqual(actual, expected)
+
+    def test_round_trip(self):
+        orginal = list(range(100))
+        accumulated = accumulate(orginal) # accumulate = n + (n-1) + (n-2) + ......
+        actual = list(functions.difference(accumulated)) # n - (n-1) + (n-2) + ....
+        self.assertEqual(actual, orginal) 
+    
+    def test_one(self):
+        self.assertEqual(list(functions.difference([0]), [0]))
+
+    def test_empty(self):
+        self.assertEqual(list(functions.difference([]), []))
+
+    @skipIf(version_info[:2], (3.8), 'accumulate with initial needs python 3.8')
+    def test_initial(self):
+        orginal = list(range(100))
+        accumulated = accumulate(orginal, initial = 100) # after python 3.8
+        actual = list(functions.difference(accumulated, initial = 100)) # n - (n-1) + (n-2) + ....
+        self.assertEqual(actual, orginal)
+
 if __name__ == "__main__":
     unittest.main()
