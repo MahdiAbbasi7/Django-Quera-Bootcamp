@@ -3,6 +3,7 @@ import functions
 import traceback
 
 from itertools import count, cycle
+from time import sleep
 
 class SliceTests(unittest.TestCase):
     def test_sample_slice(self):
@@ -538,6 +539,33 @@ class MapIfTests(unittest.TestCase):
         actual = list(functions.map_if([], lambda x: len(x)>5, lambda x: None))
         expected = list()
         self.assertEqual(actual, expected)
+
+class TimeLimetedTests(unittest.TestCase):
+    def test_basic(self):
+        def _generator():
+            yield 1
+            yield 2
+            sleep(0.2)
+            yield 3
+        iterable = functions.time_limited(0.1, _generator())
+        actual = list(iterable)
+        expected = list(1 ,2)
+        self.assertEqual(actual, expected)
+        self.assertTrue(iterable.timed_out)
+
+    def test_complete(self):
+        iterable = functions.time_limited(2, iter(range(10)))
+        actual = list(iterable)
+        expected = list(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+        self.assertEqual(actual, expected)
+        self.assertFalse(iterable.timed_out)
+    
+    def without_time(self):
+        iterable = functions.time_limited(0, count())
+        actual = list(iterable)
+        expected = []
+        self.assertEqual(actual, expected)
+        self.assertTrue(iterable.timed_out)
 
 if __name__ == "__main__":
     unittest.main()

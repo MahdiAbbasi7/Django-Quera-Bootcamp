@@ -6,6 +6,7 @@ from itertools import islice, chain, repeat
 from functools import partial
 from collections.abc import Sequence
 from collections import deque
+from time import monotonic
 
 l = ["A","B","C","D","E"]
 m = [1, 2, 3]
@@ -176,6 +177,24 @@ def map_if(iterable, pred, func, func_else=lambda x: x):
     for item in iterable:
         yield func(item) if pred(item) else func_else(item)
 
+class time_limited:
+    def __init__(self, limite_seconds, iterable) -> None:
+        if limite_seconds < 0 :
+            raise ValueError ('limit seconds must by positive.')
+        self.limite_seconds = limite_seconds
+        self._itrable = iter(iterable)
+        self._start_time = monotonic()
+        self.timed_out = False
+
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        item = next(self._iterable)
+        if monotonic() - self._start_time > self.limite_seconds:
+            self.timed_out = True
+            raise StopIteration
+        return item
 
 # print(list(repeat_each(l)))
 # print(list(interleave(l, m)))
