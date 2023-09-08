@@ -474,7 +474,7 @@ class Split_IntoTests(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_everythings_empty(self):
-        itrable = []
+        iterable = []
         sizes = []
         actual = list(functions.split_into(iterable, sizes))
         expected = []
@@ -567,5 +567,9 @@ class TimeLimetedTests(unittest.TestCase):
         self.assertEqual(actual, expected)
         self.assertTrue(iterable.timed_out)
 
+    def invalid_time(self):
+        with self.assertRaises(ValueError):
+            list(functions.time_limited(-0.1, count()))
+            
 if __name__ == "__main__":
     unittest.main()
