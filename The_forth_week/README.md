@@ -6,18 +6,18 @@ Best wishes🌹
 ## SQL
 
 - Video
-  - [Maktabkhone course](https://maktabkhooneh.org/course/%D9%BE%D8%A7%DB%8C%DA%AF%D8%A7%D9%87-%D8%AF%D8%A7%D8%AF%D9%87-mk214/)
-  - [Datacamp course](https://www.datacamp.com/completed/statement-of-accomplishment/course/3448b86944a36db4b7232508dfa878a672fa39b6)
+  - [Maktabkhone course ✅](https://maktabkhooneh.org/course/%D9%BE%D8%A7%DB%8C%DA%AF%D8%A7%D9%87-%D8%AF%D8%A7%D8%AF%D9%87-mk214/)
+  - [Datacamp course ✅](https://www.datacamp.com/completed/statement-of-accomplishment/course/3448b86944a36db4b7232508dfa878a672fa39b6)
   - [Postgresql_1](https://piped.video/playlist?list=PLdUn5H7OTUk1PSzkW_1KmEX_wASLw7X_M)
-  - [Postgresql_2](https://downloadly.ir/elearning/video-tutorials/sql-and-postgresql-the-complete-developers-guide-9/)
+  - [Postgresql_2 ✅](https://downloadly.ir/elearning/video-tutorials/sql-and-postgresql-the-complete-developers-guide-9/)
 
 - Documentation and Tutorial
   - [SQLite Documentation](https://www.sqlite.org/docs.html)
   - [SQLite Tutorial](https://www.sqlitetutorial.net/)
-  - [PostgreSQL Documentation](https://www.postgresql.org/docs/)
-  - [MySQL Documentation](https://dev.mysql.com/doc/)
+  - [PostgreSQL Documentation ✅](https://www.postgresql.org/docs/)
+  - [MySQL Documentation ✅](https://dev.mysql.com/doc/)
   - [MySQL Tutorial](https://www.mysqltutorial.org/)
-  - [Oracle Documentation](https://docs.oracle.com/en/database/index.html)
+  - [Oracle Documentation ✅](https://docs.oracle.com/en/database/index.html)
   - [Oracle Turorial](https://www.oracletutorial.com/)
 
 - Cheetsheet
@@ -28,3 +28,18 @@ Best wishes🌹
   - [Oracle Cheat Sheet by GoalKicker](https://books.goalkicker.com/OracleDatabaseBook/OracleDatabaseNotesForProfessionals.pdf)
 
 ## Linux
+
+- Video
+  - [Course By Jadi ✅](https://www.youtube.com/watch?v=AKkNUvEHXhk&list=PLFOYXCPEqdNUU55Xvgst8wGTWnz_sd-cj)
+  - [Course By AmirBig](https://www.mongard.ir/courses/linux/)
+
+- Book
+  - [Jadi Book](https://linux1st.com/archives.html)
+  - [Secret Book ✅](https://github.com/bit-orbit/the-secret-bit)
+
+- Platform
+  - [linux](https://linuxjourney.com/)
+
+- CheetSheet
+  - [Linux commands cheat sheet](https://www.guru99.com/linux-commands-cheat-sheet.html)
+  
