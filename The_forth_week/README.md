@@ -42,4 +42,10 @@ Best wishes🌹
 
 - CheetSheet
   - [Linux commands cheat sheet](https://www.guru99.com/linux-commands-cheat-sheet.html)
+
+
+ 
+For Certifications of LIPC see this links : 
+  - [Iran](https://arjang.ac.ir/international/%D8%A7%D9%85%D8%AA%D8%AD%D8%A7%D9%86%D8%A7%D8%AA-lpi)
+  - [Global](https://www.lpi.org/our-certifications/lpic-1-overview/)
   
